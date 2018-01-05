@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+  .noselect {
+-webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+}
+  </style>
+</head>
+<body style="overflow: hidden;">
+  <div id="score" class="noselect" style="position: absolute; left: 30px; top: 30px; z-index: -10;">dupa</div>
+  <div id='circle' style="z-index: 999; background: red; width: 100px; height: 100px; position: absolute; left: 0; top: 0; border-radius: 100%" />
+  <script>
+    var circle = document.getElementById('circle')
+    var animation = true;
+    var level = 4
+    var score = 0
+    var gameOver = false
+    circle.onmousedown = () => {
+      animation = false;
+      level += 0.1;
+    }
+    document.onmouseup = () => {
+      animation = true;
+
+    }
+    document.onmousemove = (e) => {
+      if(animation === false) {
+        circle.style.left = e.pageX - 50 + 'px'
+        circle.style.top = e.pageY - 50 + 'px'
+      }
+    }
+    var delta = 1
+    var interval = setInterval(() => {
+      if(animation === false || gameOver === true) {
+        return;
+      }
+      var posX = parseFloat(circle.style.left)
+      var posY = parseFloat(circle.style.top)
+      var delta2 =  Math.random() * 1
+
+      if(posX + parseFloat(circle.style.width) === window.innerWidth || posX + parseFloat(circle.style.width) > window.innerWidth) {
+        delta = -1
+      }
+      if(posX === 0 || posX < 0) {
+        delta = 1
+      }
+      if(posY + 100 > window.innerHeight) {
+        gameOver = true
+      }
+      circle.style.left = (posX + (delta * level)) + 'px'
+      circle.style.top = posY + (delta2 * level) + 'px'
+      score++;
+      document.querySelector('#score').innerHTML = "Wytrzymales: " + (score / 100) + " sekund!"
+      console.log(Math.cos(posX))
+    }, 10)
+  </script>
+</body>
+</html>

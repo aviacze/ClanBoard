@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <input id="number1" type="number" />
+  <input id="number2" type="number" />
+  <button id='send'>Send</button>
+  <div>Wynik: <span id='result'></span></div>
+  <script>
+    $(document).ready(() => {
+      $('#send').click(() => {
+        var n1 = parseInt($('#number1').val())
+        var n2 = parseInt($('#number2').val())
+        if(n2 === 0) {
+          alert('Not zero!')
+        }
+        console.log('Click happened', n1, n2)
+        $.post('/suma?liczba1='+n1+'&liczba2='+n2, (response) => {
+          console.log('response from server', response)
+          $('#result').html(response.suma)
+        })
+      })
+    })
+  </script>
+</body>
+</html>

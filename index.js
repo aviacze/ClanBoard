@@ -1,12 +1,15 @@
 const express = require('express')
+const path = require('path')
 const app = express()
 const port = 80
 
 app.get('/', (request, response) => {
-  response.send('Hello from Express!')
+  response.sendFile(path.join(__dirname + '/index.html'))
 })
 
-
+app.get('/anim', (request, response) => {
+  response.sendFile(path.join(__dirname + '/anim.html'))
+})
 
 app.get('/kogolubipatryk', (req, res) => {
   if(typeof req.query.dupa !== 'undefined') {
@@ -24,11 +27,11 @@ app.get('/mati', (request, response) => {
 })
 
 
-app.get('/suma', (request, response) => {
+app.post('/suma', (request, response) => {
   var liczba1=parseInt(request.query.liczba1)
   var liczba2=parseInt(request.query.liczba2)
   var suma=liczba1 + liczba2
-  response.send('Twoja suma to: ' +suma)
+  response.send({suma})
 })
 
 
